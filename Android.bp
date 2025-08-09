@@ -117,6 +117,13 @@ cc_defaults {
         "-UADB_HOST",
         "-DADB_HOST=0",
     ],
+    product_variables: {
+        debuggable: {
+            cppflags: [
+                "-DUSE_ADBROOT_SERVICE",
+            ],
+        },
+    },
 }
 
 cc_defaults {

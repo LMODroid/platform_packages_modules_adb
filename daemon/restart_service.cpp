@@ -16,7 +16,7 @@
 
 #define TRACE_TAG SERVICES
 
-#if defined(__ANDROID__) && !defined(__ANDROID_RECOVERY__)
+#if defined(__ANDROID__) && !defined(__ANDROID_RECOVERY__) && defined(USE_ADBROOT_SERVICE)
 #include <aidl/android/adbroot/IADBRootService.h>
 #include <android/binder_manager.h>
 #endif
@@ -39,7 +39,7 @@ void restart_root_service(unique_fd fd) {
         return;
     }
 
-#if defined(__ANDROID__) && !defined(__ANDROID_RECOVERY__)
+#if defined(__ANDROID__) && !defined(__ANDROID_RECOVERY__) && defined(USE_ADBROOT_SERVICE)
     ndk::SpAIBinder binder = ndk::SpAIBinder(AServiceManager_getService("adbroot_service"));
     std::shared_ptr<aidl::android::adbroot::IADBRootService> service =
             aidl::android::adbroot::IADBRootService::fromBinder(binder);
@@ -49,7 +49,7 @@ void restart_root_service(unique_fd fd) {
     }
 #endif
 
-#if defined(__ANDROID__) && !defined(__ANDROID_RECOVERY__)
+#if defined(__ANDROID__) && !defined(__ANDROID_RECOVERY__) && defined(USE_ADBROOT_SERVICE)
     bool enabled = false;
     if (auto status = service->getEnabled(&enabled); !status.isOk()) {
 #endif
@@ -57,7 +57,7 @@ void restart_root_service(unique_fd fd) {
         WriteFdExactly(fd.get(), "adbd cannot run as root in production builds\n");
         return;
     }
-#if defined(__ANDROID__) && !defined(__ANDROID_RECOVERY__)
+#if defined(__ANDROID__) && !defined(__ANDROID_RECOVERY__) && defined(USE_ADBROOT_SERVICE)
     }
     if (!enabled) {
         WriteFdExactly(fd, "ADB Root access is disabled by system setting - "
