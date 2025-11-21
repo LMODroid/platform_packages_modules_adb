@@ -865,6 +865,7 @@ cc_binary {
 
         recovery: {
             exclude_shared_libs: [
+                "adbd_flags_c_lib",
                 "libadb_pairing_auth",
                 "libadb_pairing_connection",
                 "libbinder_ndk",
